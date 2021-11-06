@@ -14,4 +14,4 @@ print(mean(1, 2, 3, 4))
 
 # Cannot have keyword arguments as *args seems to take all the args
 
-print(mean(1, 2, 3, 4))
+print(mean(1, 2, 3, a=4))
