@@ -4,7 +4,7 @@ import cv2, time
 # If i have multiple video cameras they each get a number starting from 0
 # For video on hard drive need the path to the video file
 # video = cv2.VideoCapture(0)
-video = cv2.VideoCapture('./files/facial_recognition/video.mp4')
+video = cv2.VideoCapture('../files/facial_recognition/video.mp4')
 
 # Create a while loop here for multiple frames
 while True:
