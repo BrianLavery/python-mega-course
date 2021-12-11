@@ -1,6 +1,7 @@
 import cv2, time
 
-video = cv2.VideoCapture('../files/facial_recognition/video.mp4')
+video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture('./files/video.mp4')
 
 a = 0
 

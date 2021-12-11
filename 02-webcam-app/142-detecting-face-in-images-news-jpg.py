@@ -1,10 +1,10 @@
 import cv2
 
 # Load facial detection cascade
-face_cascade = cv2.CascadeClassifier('../files/facial_recognition/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('./files/haarcascade_frontalface_default.xml')
 
 # Load image to search for face - default is use colour image
-img = cv2.imread('../files/facial_recognition/news.jpg')
+img = cv2.imread('./files/news.jpg')
 
 # Want to grayscale when look for face - improves accuracy - do with a method
 grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
