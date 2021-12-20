@@ -1,0 +1,25 @@
+# Things in <> symbols are rules
+# Most of the other elements in CamelCase are Classes
+<LoginScreen>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 1
+            Label:
+                text: "User Login"
+            TextInput:
+                hint_text: "Username"
+            TextInput:
+                hint_text: "Password"
+            Button:
+                text: "Login"
+        GridLayout:
+            cols: 2
+            Button:
+                text: "Forgot password?"
+            Button:
+                text: "Sign up"
+
+<RootWidget>:
+    LoginScreen:
+        name: "login_screen"
