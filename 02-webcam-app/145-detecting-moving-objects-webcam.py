@@ -3,7 +3,7 @@ import cv2, time
 # Variable for first frame - remains as a static value
 first_frame = None # Use this to create a variable but not assign a value
 
-# video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture(1)
 video = cv2.VideoCapture('./files/video.mp4')
 
 while True:
