@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls')) # Tells Django to include all urls in urls.py of our blog app folder
+    path('', include('blog.urls')), # Tells Django to include all urls in urls.py of our blog app folder
+    path('translate/', include('translator_app.urls'))
 ]
