@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content%}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h1>Super Geocoder</h1>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col">
+                <p>Please upload your CSV file. The values containing addresses should be in a column named address or Address</p>
+            </div>
+        </div>
+
+        <form class="form-inline my-4" action="{{url_for('uploaded')}}" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-8 flex-grow-1 flex-shrink-0">
+                    <input type="file" class="form-control" name="file">
+                </div>
+                <div class="col flex-grow-0 flex-shrink-1">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row mt-5">
+            <div class="col">
+                <p>Please make sure you have an address column in your CSV file!</p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col">
+                <p class="error">
+                    {{ message | safe }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content%}
