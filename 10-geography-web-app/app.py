@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file
 from werkzeug.utils import redirect, secure_filename
 import pandas
 from geopy.geocoders import ArcGIS
+import datetime
 
 app = Flask(__name__)
 nom = ArcGIS()
@@ -12,7 +13,7 @@ def index():
 
 @app.route("/uploaded", methods = ['GET', 'POST'])
 def uploaded():
-    global file
+    global filename
     if request.method == 'POST':
         file = request.files['file']
         
@@ -34,26 +35,22 @@ def uploaded():
 
         for index, row in df.iterrows():
             coord = nom.geocode(row["address"], timeout = None)
-            if coord == None:
-                lats.append(None)
-                longs.append(None)
-            else:
-                lat = coord.latitude
-                long = coord.longitude
-                lats.append(lat)
-                longs.append(long)
+            lats.append(coord.latitude if coord != None else None)
+            longs.append(coord.latitude if coord != None else None)
         
         df['Latitude'] = lats
         df['Longitude'] = longs
 
-        df.to_csv(secure_filename("geocoded_" + file.filename))
+        filename = datetime.datetime.now().strftime("uploads/%Y-%m-%d-%H-%M-%S-%f.csv")
+        # df.to_csv("./uploads/" + secure_filename("geocoded_" + file.filename))
+        df.to_csv(filename, index = None)
         return render_template("uploaded.html", tables=[df.to_html(classes='data', header="true")])
     else:
         return redirect('/')
 
 @app.route("/download")
 def download():
-    return send_file("geocoded_" + file.filename, attachment_filename =  "geocoded.csv", as_attachment = True)
+    return send_file(filename, attachment_filename =  "geocoded.csv", as_attachment = True)
 
 
 if __name__ == '__main__':

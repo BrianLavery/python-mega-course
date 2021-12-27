@@ -10,3 +10,7 @@ body {
 .error {
     color: red;
 }
+
+h1, h2, h3, p {
+    color: #09092f;
+}
