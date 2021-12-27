@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block content%}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h1>Super Geocoder</h1>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col">
+                <p>Here are your results</p>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col">
+                {% for table in tables %}
+                    {{ table | safe }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col">
+                <a href="{{url_for('download')}}" target="blank">
+                    <button class="btn btn-primary">Download</button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock content%}

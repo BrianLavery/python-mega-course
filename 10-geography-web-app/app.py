@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from werkzeug.utils import redirect, secure_filename
+import pandas
+from geopy.geocoders import ArcGIS
 
 app = Flask(__name__)
+nom = ArcGIS()
 
 @app.route("/")
 def index():
@@ -9,18 +12,49 @@ def index():
 
 @app.route("/uploaded", methods = ['GET', 'POST'])
 def uploaded():
+    global file
     if request.method == 'POST':
         file = request.files['file']
         
+        # Check they uploaded CSV file
         if file.filename[-4:] != ".csv":
-            return render_template("index.html", message = "Must upload a .csv file")        
+            return render_template("index.html", error_message = "Must upload a .csv file")
 
+        # Check that there is an address/ Address column
+        df = pandas.read_csv(file)
+        if "address" not in (column.lower() for column in df.columns):
+            return render_template("index.html", error_message = "File must contain a column named 'Address' or 'address'")
         
+        # Replace any columns with "Address" with address
+        df.rename(columns={'Address': 'address'}, inplace = True)
         
-        file.save(secure_filename("geocoded_" + file.filename))
+        # Add a latitude and longitude column to the dataframe
+        lats = []
+        longs = []
+
+        for index, row in df.iterrows():
+            coord = nom.geocode(row["address"], timeout = None)
+            if coord == None:
+                lats.append(None)
+                longs.append(None)
+            else:
+                lat = coord.latitude
+                long = coord.longitude
+                lats.append(lat)
+                longs.append(long)
+        
+        df['Latitude'] = lats
+        df['Longitude'] = longs
+
+        df.to_csv(secure_filename("geocoded_" + file.filename))
+        return render_template("uploaded.html", tables=[df.to_html(classes='data', header="true")])
     else:
         return redirect('/')
-    # return render_template("uploaded.html")
+
+@app.route("/download")
+def download():
+    return send_file("geocoded_" + file.filename, attachment_filename =  "geocoded.csv", as_attachment = True)
+
 
 if __name__ == '__main__':
     app.debug = True
